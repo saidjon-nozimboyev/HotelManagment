@@ -3,7 +3,6 @@
 public class Room : Base
 {
     public int HotelId { get; set; }
-    public Hotel Hotel { get; set; }
     public string RoomNumber { get; set; } = string.Empty;
     public string RoomType { get; set; } = string.Empty;
     public int Capacity { get; set; }
