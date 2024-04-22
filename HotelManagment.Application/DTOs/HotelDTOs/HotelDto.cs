@@ -8,7 +8,7 @@ public class HotelDto : AddHotelDto
 
     public static implicit operator Hotel(HotelDto dto)
     {
-        return new HotelDto
+        return new Hotel
         {
             Id = dto.Id,
             Name = dto.Name,
