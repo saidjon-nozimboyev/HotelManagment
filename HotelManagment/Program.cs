@@ -1,6 +1,13 @@
+using FluentValidation;
+using HotelManagment.Application.Common.Validators;
+using HotelManagment.Application.Interfaces;
+using HotelManagment.Application.Services;
 using HotelManagment.Data.DbContexts;
+using HotelManagment.Data.Interfaces;
+using HotelManagment.Data.Repositories;
+using HotelManagment.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +18,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Serilog
+builder.Host.UseSerilog((hostingContext, loggerConfiguration) =>
+loggerConfiguration.ReadFrom.Configuration(hostingContext.Configuration));
+
 // Db Context
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
@@ -18,6 +29,22 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 });
 var app = builder.Build();
+
+//UnitOfWork
+builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
+
+//Services
+builder.Services.AddTransient<IAccountService, AccountService>();
+builder.Services.AddTransient<IAuthManager, AuthManager>();
+builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<IHotelService, HotelService>();
+builder.Services.AddTransient<IRoomService, RoomService>();
+
+// Configure
+
+//Validators
+builder.Services.AddScoped<IValidator<User>, UserValidator>();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

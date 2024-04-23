@@ -6,9 +6,9 @@ public class UserDto : AddUserDto
 {
     public int Id { get; set; } 
     
-    public static implicit operator User(UserDto dto)
+    public static implicit operator UserDto(User dto)
     {
-        return new User()
+        return new UserDto()
         {
             Id = dto.Id,
             Country = dto.Country,
