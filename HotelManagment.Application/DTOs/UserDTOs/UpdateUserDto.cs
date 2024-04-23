@@ -9,7 +9,6 @@ public class UpdateUserDto
     public string LastName { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string PhoneNumber { get; set; } = string.Empty;
-    public string Password { get; set; } = string.Empty;
     public string Country { get; set; } = string.Empty;
     public string PassportSeries { get; set; } = string.Empty;
     public Gender Gender { get; set; }
@@ -22,7 +21,6 @@ public class UpdateUserDto
             LastName = user.LastName,
             Email = user.Email,
             PhoneNumber = user.PhoneNumber,
-            Password = user.Password,
             Country = user.Country,
             PassportSeries = user.PassportSeries,
             Gender = user.Gender,
