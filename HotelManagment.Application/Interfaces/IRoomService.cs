@@ -1,6 +1,4 @@
-﻿using HotelManagment.Application.DTOs.RoomDTOs;
-
-namespace HotelManagment.Application.Interfaces;
+﻿namespace HotelManagment.Application.Interfaces;
 
 public interface IRoomService
 {

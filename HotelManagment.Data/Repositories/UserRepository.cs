@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HotelManagment.Data.Repositories;
 
-public class UserRepository<T>(AppDbContext dbContext) 
+public class UserRepository(AppDbContext dbContext) 
     : GenericRepository<User>(dbContext), IUserInterface
 {
     public async Task<User?> GetByEmailAsync(string email)

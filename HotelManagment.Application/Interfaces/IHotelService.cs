@@ -1,6 +1,4 @@
-﻿using HotelManagment.Application.DTOs.HotelDTOs;
-
-namespace HotelManagment.Application.Interfaces;
+﻿namespace HotelManagment.Application.Interfaces;
 
 public interface IHotelService
 {

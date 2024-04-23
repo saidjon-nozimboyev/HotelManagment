@@ -7,13 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Common\Exceptions\" />
-    <Folder Include="Common\Extensions\" />
-    <Folder Include="Common\Validators\" />
-    <Folder Include="Services\" />
+    <PackageReference Include="FluentValidation" Version="11.9.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\HotelManagment.Data\HotelManagment.Data.csproj" />
     <ProjectReference Include="..\HotelManagment.Domain\HotelManagment.Domain.csproj" />
   </ItemGroup>
 

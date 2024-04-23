@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HotelManagment.Data.Repositories;
 
-public class RoomRepository<T>(AppDbContext dbContext) 
+public class RoomRepository(AppDbContext dbContext) 
     : GenericRepository<Room>(dbContext), IRoomInterface
 {
     public async Task<IEnumerable<Room?>> GetEmptyRooms()

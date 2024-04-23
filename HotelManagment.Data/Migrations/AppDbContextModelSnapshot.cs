@@ -137,25 +137,7 @@ namespace HotelManagment.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("HotelId");
-
                     b.ToTable("Rooms");
-                });
-
-            modelBuilder.Entity("Room", b =>
-                {
-                    b.HasOne("HotelManagment.Domain.Entities.Hotel", "Hotel")
-                        .WithMany("Rooms")
-                        .HasForeignKey("HotelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Hotel");
-                });
-
-            modelBuilder.Entity("HotelManagment.Domain.Entities.Hotel", b =>
-                {
-                    b.Navigation("Rooms");
                 });
 #pragma warning restore 612, 618
         }
