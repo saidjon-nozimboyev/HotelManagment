@@ -7,13 +7,14 @@ public class AccountService(IUnitOfWork unitOfWork,
                             IEmailService emailService)
     : IAccountService
 {
-    private readonly IAuthManager _auth = auth;
+    public IAuthManager _auth = auth;
+
     private readonly IValidator<User> _validator = validator;
     private readonly IMemoryCache _cache = cache;
     private readonly IEmailService _emailService = emailService;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
-    public async Task RegisterAsync(AddUserDto dto)
+    public async Task<bool> RegisterAsync(AddUserDto dto)
     {
         var user = await _unitOfWork.User.GetByEmailAsync(dto.Email);
         if (user is not null)
@@ -27,7 +28,7 @@ public class AccountService(IUnitOfWork unitOfWork,
         entity.Password = PasswordHasher.GetHash(entity.Password);
 
         await _unitOfWork.User.CreateAsync(entity);
-
+        return true;
     }
 
     public async Task<string> LoginAsync(string email, string password)

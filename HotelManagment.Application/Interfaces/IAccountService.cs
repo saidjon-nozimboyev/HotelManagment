@@ -2,7 +2,7 @@
 
 public interface IAccountService
 {
-    Task RegisterAsync(AddUserDto dto);
+    Task<bool> RegisterAsync(AddUserDto dto);
     Task<string> LoginAsync(string email, string password);
     Task SendCodeAsync(string email);
     Task CheckCodeAsync(string email, string code);

@@ -1,7 +1,9 @@
 using FluentValidation;
 using HotelManagment.Application.Common.Validators;
+using HotelManagment.Application.Configurations;
 using HotelManagment.Application.Interfaces;
 using HotelManagment.Application.Services;
+using HotelManagment.Configurations;
 using HotelManagment.Data.DbContexts;
 using HotelManagment.Data.Interfaces;
 using HotelManagment.Data.Repositories;
@@ -28,7 +30,6 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("LocalDb"));
     options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 });
-var app = builder.Build();
 
 //UnitOfWork
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
@@ -41,10 +42,15 @@ builder.Services.AddTransient<IHotelService, HotelService>();
 builder.Services.AddTransient<IRoomService, RoomService>();
 
 // Configure
+builder.Services.ConfigureJwtAuthorize(builder.Configuration);
+builder.Services.ConfigureSwaggerAuthorize(builder.Configuration);
 
 //Validators
 builder.Services.AddScoped<IValidator<User>, UserValidator>();
+builder.Services.AddScoped<IValidator<Hotel>, HotelValidator>();
+builder.Services.AddScoped<IValidator<Room>, RoomValidator>();
 
+var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

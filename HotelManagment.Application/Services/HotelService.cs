@@ -34,18 +34,38 @@ public class HotelService(IUnitOfWork unitOfWork,
         return hotels.Select(x => (HotelDto)x).ToList();
     }
 
-    public Task<HotelDto> GetByIdAsync(int id)
+    public async Task<HotelDto> GetByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        var hotel = await _unitOfWork.Hotel.GetByIdAsync(id);
+        if (hotel is null) 
+            throw new StatusCodeException(HttpStatusCode.NotFound, "Hotel not found");
+        return (HotelDto)hotel;
     }
 
-    public Task<List<HotelDto>> GetByStartRatingAsync(double rating)
+    public async Task<List<HotelDto>> GetByStartRatingAsync(double rating)
     {
-        throw new NotImplementedException();
+        if (rating < 0 || rating > 5)
+            throw new StatusCodeException(HttpStatusCode.BadGateway, "The rating is incorrect");
+        var hotels = await _unitOfWork.Hotel.GetByRatingAsync(rating);
+        return hotels.Select(x => (HotelDto)x).ToList();
     }
 
-    public Task UpdateAsync(HotelDto dto)
+    public async Task UpdateAsync(HotelDto dto)
     {
-        throw new NotImplementedException();
+        var hotel = await _unitOfWork.Hotel.GetByIdAsync(dto.Id);
+        if (hotel is null)
+            throw new StatusCodeException(HttpStatusCode.NotFound, "Hotel not found");
+
+        var result = _validator.Validate(dto);
+        if (!result.IsValid)
+            throw new ValidatorException(result.GetErrorMessages());
+
+        hotel.Name = dto.Name;
+        hotel.Description = dto.Description;
+        hotel.ContactInformation = dto.ContactInformation;
+        hotel.StarRating = dto.StarRating;
+        hotel.Geolocation = dto.Geolocation;
+
+        await _unitOfWork.Hotel.UpdateAsync(hotel);
     }
 }
