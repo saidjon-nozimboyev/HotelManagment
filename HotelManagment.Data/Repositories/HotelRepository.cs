@@ -8,6 +8,10 @@ namespace HotelManagment.Data.Repositories;
 public class HotelRepository(AppDbContext dbContext) 
     : GenericRepository<Hotel>(dbContext), IHotelInterface
 {
+    public async Task<Hotel?> GetByNameAsync(string name)
+    {
+        return await _dbContext.Hotels.FirstOrDefaultAsync(h => h.Name == name);
+    }
 
     public async Task<IEnumerable<Hotel?>> GetByRatingAsync(double rating)
     {

@@ -1,21 +1,37 @@
-﻿
-namespace HotelManagment.Application.Services;
+﻿namespace HotelManagment.Application.Services;
 
-public class HotelService : IHotelService
+public class HotelService(IUnitOfWork unitOfWork,
+                          IValidator<Hotel> validator) 
+    : IHotelService
 {
-    public Task CreateAsync(AddHotelDto dto)
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
+    private readonly IValidator<Hotel> _validator = validator;
+
+    public async Task CreateAsync(AddHotelDto dto)
     {
-        throw new NotImplementedException();
+        var hotel = await _unitOfWork.Hotel.GetByNameAsync(dto.Name);
+        if (hotel is not null)
+            throw new StatusCodeException(HttpStatusCode.AlreadyReported,"Information about hotel already exists");
+        var result = _validator.Validate(dto);
+        if (!result.IsValid)
+            throw new ValidatorException(result.GetErrorMessages());
+
+        await _unitOfWork.Hotel.CreateAsync((Hotel)dto);
     }
 
-    public Task DeleteAsync(int id)
+    public async Task DeleteAsync(int id)
     {
-        throw new NotImplementedException();
+        var hotel = await _unitOfWork.Hotel.GetByIdAsync(id);
+        if (hotel is null)
+            throw new StatusCodeException(HttpStatusCode.NotFound, "Hotel with this id not found");
+
+        await _unitOfWork.Hotel.DeleteAsync(hotel);
     }
 
-    public Task<IEnumerable<HotelDto>> GetAllAsync()
+    public async Task<IEnumerable<HotelDto>> GetAllAsync()
     {
-        throw new NotImplementedException();
+        var hotels = await _unitOfWork.Hotel.GetAllAsync();
+        return hotels.Select(x => (HotelDto)x).ToList();
     }
 
     public Task<HotelDto> GetByIdAsync(int id)

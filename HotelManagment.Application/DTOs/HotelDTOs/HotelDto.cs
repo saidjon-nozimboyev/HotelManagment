@@ -18,4 +18,17 @@ public class HotelDto : AddHotelDto
             StarRating = dto.StarRating,
         };
     }
+
+    public static implicit operator HotelDto(Hotel hotel)
+    {
+        return new HotelDto
+        {
+            Id = hotel.Id,
+            Name = hotel.Name,
+            Description = hotel.Description,
+            ContactInformation = hotel.ContactInformation,
+            Geolocation = hotel.Geolocation,
+            StarRating = hotel.StarRating,
+        };
+    }
 }
