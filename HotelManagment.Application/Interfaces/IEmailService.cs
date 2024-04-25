@@ -1,4 +1,4 @@
-﻿namespace HotelManagment.Data.Interfaces;
+﻿namespace HotelManagment.Application.Interfaces;
 
 public interface IEmailService
 {

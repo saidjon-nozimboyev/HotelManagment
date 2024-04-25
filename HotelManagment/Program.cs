@@ -20,6 +20,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddMemoryCache();
 // Serilog
 builder.Host.UseSerilog((hostingContext, loggerConfiguration) =>
 loggerConfiguration.ReadFrom.Configuration(hostingContext.Configuration));
@@ -28,7 +29,7 @@ loggerConfiguration.ReadFrom.Configuration(hostingContext.Configuration));
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("LocalDb"));
-    options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+   // options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 });
 
 //UnitOfWork
@@ -40,6 +41,7 @@ builder.Services.AddTransient<IAuthManager, AuthManager>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IHotelService, HotelService>();
 builder.Services.AddTransient<IRoomService, RoomService>();
+builder.Services.AddTransient<IEmailService, EmailService>();
 
 // Configure
 builder.Services.ConfigureJwtAuthorize(builder.Configuration);
@@ -61,8 +63,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+app.UseAuthentication();
 
+app.UseAuthorization();
 app.MapControllers();
 
 app.Run();

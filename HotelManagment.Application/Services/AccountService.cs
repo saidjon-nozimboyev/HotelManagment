@@ -22,6 +22,7 @@ public class AccountService(IUnitOfWork unitOfWork,
 
         var entity = (User)dto;
         var result = _validator.Validate(entity);
+
         if (!result.IsValid)
             throw new ValidationException(result.GetErrorMessages());
 
