@@ -29,7 +29,7 @@ loggerConfiguration.ReadFrom.Configuration(hostingContext.Configuration));
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("LocalDb"));
-   // options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+    options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 });
 
 //UnitOfWork
