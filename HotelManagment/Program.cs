@@ -8,6 +8,7 @@ using HotelManagment.Data.DbContexts;
 using HotelManagment.Data.Interfaces;
 using HotelManagment.Data.Repositories;
 using HotelManagment.Domain.Entities;
+using HotelManagment.Middlewares;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -66,6 +67,9 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseMiddleware<ExceptionsHadle>();
+
 app.MapControllers();
 
 app.Run();
