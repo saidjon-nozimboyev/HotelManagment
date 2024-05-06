@@ -5,7 +5,7 @@
 namespace HotelManagment.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class Ini : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
